@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ລະບົບຂໍ້ມູນລັດຖະກອນ 2026</title>
+<style>
+
+/* ເຊື່ອງ Scrollbar ຂອງຕາຕະລາງແຕ່ລະຄົນ ແຕ່ຍັງສາມາດເລື່ອນໄດ້ */
+  .eval-form-scroll-container {
+    overflow-x: auto;
+    scrollbar-width: none; /* ສຳລັບ Firefox */
+  }
+  .eval-form-scroll-container::-webkit-scrollbar {
+    display: none; /* ສຳລັບ Chrome, Safari, Edge */
+  }
+
+  /* ຕັ້ງໃຫ້ກ່ອງລວມສະແດງສະກໍບາທັງແນວຕັ້ງ ແລະ ແນວນອນ ຢູ່ຂອບນອກສຸດ */
+  #evaluationFormArea {
+    flex: 1;
+    overflow: auto !important;
+    padding-bottom: 20px;
+  }
+
+  /* ຍົກເລີກສະກໍບາຂອງແຕ່ລະຕາຕະລາງຍ່ອຍ */
+  .eval-form-scroll-container {
+    overflow-x: visible !important; 
+    width: 100%;
+  }
+
+  :root {
+    --navy: #163b66;
+    --blue: #2463a6;
+    --cyan: #eaf4ff;
+    --bg: #f3f6fb;
+    --ink: #172b45;
+    --muted: #64748b;
+    --line: #dce5ef;
+    --green: #16794b;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    font-family: "Noto Sans Lao", "Phetsarath OT", Arial, sans-serif;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* ຄຳສັ່ງບັງຄັບປິດສະກໍບາດ້ານນອກສຸດ */
+  }
+
+  header {
+    background: linear-gradient(120deg, #12345b, #2568a8);
+    color: #fff;
+    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-size: 22px;
+    margin: 0 0 5px;
+  }
+
+  header p {
+    margin: 0;
+    opacity: .85;
+    font-size: 13px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    background: #fff;
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .btn.primary {
+    background: #1d5d9c;
+    color: white;
+  }
+
+  .btn.gray {
+    background: #e9eef5;
+    color: #34465d;
+  }
+
+  main {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* ເພີ່ມເພື່ອປ້ອງກັນບໍ່ໃຫ້ເນື້ອໃນດັນຈໍລົງໄປ */
+  }
+
+  .tabs {
+    margin-bottom: 0;
+  }
+
+  .group-select {
+    width: 100%;
+    padding: 12px 35px 12px 15px; 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 15px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    outline: none;
+    font-weight: 600;
+    text-align: left; /* ບັງຄັບໃຫ້ຕົວໜັງສືຊິດຊ້າຍ */
+    appearance: none; 
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    transition: all 0.3s ease;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+  }
+
+  .group-select:focus, .group-select:hover {
+    border-color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .group-select option {
+    background-color: #2568a8;
+    color: white;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 0;
+    flex: 1;
+    min-height: 0;
+  }
+
+  aside {
+    background: linear-gradient(180deg, #163b66, #2568a8); /* ໄລ່ສີໃຫ້ເຂົ້າກັບ Header */
+    padding: 30px 20px;
+  }
+
+  section {
+    padding: 30px;
+    background: #edf2f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .card {
+    background: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 0;
+    box-shadow: 0 8px 24px rgba(22, 59, 102, 0.08); /* ເງົານຸ່ມຂຶ້ນ ມີມິຕິ */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .card h2 {
+    font-size: 20px;
+    margin: 0 0 16px;
+    color: var(--navy);
+  }
+
+  footer {
+    background: linear-gradient(120deg, #12345b, #2568a8);
+    color: #fff;
+    font-size: 16px; /* ປັບຂະໜາດຕົວໜັງສືໃຫ້ໃຫຍ່ຂຶ້ນ */
+    font-weight: bold; /* ປັບໃຫ້ເປັນຕົວໜາ */
+    padding: 15px 20px;
+    margin: 30px -30px -30px -30px;
+    overflow: hidden; 
+    white-space: nowrap; 
+  }
+
+  .marquee {
+    display: inline-block;
+    padding-left: 100%; /* ເລີ່ມຕົ້ນຈາກຂອບຂວາສຸດ */
+    animation: scrollText 15s linear infinite; /* ຄວາມໄວ 15 ວິນາທີ ຖ້າຢາກໃຫ້ຊ້າລົງໃຫ້ເພີ່ມຕົວເລກຂຶ້ນ */
+  }
+
+  @keyframes scrollText {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+  }
+
+  /* Style ສຳລັບຕາຕະລາງລາຍຊື່ */
+  .table-responsive {
+    overflow: auto;
+    flex: 1;
+    min-height: 0;
+    margin-top: 10px;
+  }
+
+  .emp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .emp-table th, 
+  .emp-table td {
+    border: 1px solid var(--line);
+    padding: 8px 10px;
+  }
+
+  .emp-table th {
+    background: #edf4fb;
+    color: #24496e;
+    text-align: center;
+    font-weight: 700;
+    vertical-align: middle;
+    position: sticky;
+    top: 0; /* ຢຶດຫົວຕາຕະລາງໄວ້ເທິງສຸດເວລາເລື່ອນ */
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* ເພີ່ມເງົາບາງໆໃຫ້ເບິ່ງງາມຂຶ້ນເວລາເລື່ອນທັບຂໍ້ມູນ */
+  }
+
+  .emp-table tr {
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .emp-table tr:hover {
+    background: #f0f7ff;
+  }
+
+  .emp-table tr.selected {
+    background: #dcebff;
+    border-left: 4px solid var(--blue);
+    font-weight: 500;
+  }
+
+  /* ຕົກແຕ່ງປຸ່ມໃນ Sidebar */
+  .btn-sidebar {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px 15px;
+    border: 1px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    font: inherit;
+    font-size: 15px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* ປັບໃຫ້ເນື້ອໃນຊິດຊ້າຍ */
+    text-align: left; /* ຮັບປະກັນວ່າຕົວໜັງສືຈະຊິດຊ້າຍ */
+    gap: 10px; /* ເພີ່ມຊ່ອງຫວ່າງລະຫວ່າງໄອຄອນກັບຕົວໜັງສືໜ້ອຍໜຶ່ງ */
+  }
+  
+  .btn-sidebar:hover {
+    border-color: white;
+    background-color: #1d5d9c;
+  }
+
+  /* Responsive (ຈໍນ້ອຍ) */
+  @media(max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media(max-width: 600px) {
+    main { padding: 10px; }
+    header { padding: 17px; }
+    .card { padding: 13px; }
+    table { font-size: 12px; }
+    th, td { padding: 7px; }
+    .tab { flex: 1; }
+  }
+
+  /* Style ສຳລັບການ Print */
+  @media print {
+    @page { 
+      size: A4 portrait; 
+      margin: 2cm 2cm 2cm 3cm; 
+    }
+    header, aside, footer, .tabs, .actions, .no-print { display: none !important; }
+    
+    /* ປົດລັອກຄວາມສູງ ໃຫ້ເນື້ອໃນຍືດຍາວລົງໄປຫຼາຍໜ້າໄດ້ແບບອິດສະຫຼະ */
+    body, html { 
+      height: auto !important; 
+      overflow: visible !important; 
+      background: white; 
+      display: block !important;
+    }
+    
+    /* ລຶບຊ່ອງຫວ່າງ Padding ຂອງກ່ອງຕ່າງໆອອກ ໃຫ້ເຫຼືອແຕ່ Margin ຂອງເຈ້ຍ */
+    main, section, .layout { 
+      max-width: none !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    
+    .card { 
+      box-shadow: none !important; 
+      border: 0 !important; 
+      padding: 0 !important; 
+      margin: 0 !important;
+    }
+    
+    .card[style*="display: flex"] { display: block !important; }
+    
+    /* ປົດລັອກ Scrollbar ຂອງພື້ນທີ່ຕາຕະລາງ */
+    #printArea, .table-responsive { 
+      overflow: visible !important; 
+      height: auto !important; 
+      padding: 0 !important;
+    }
+    
+    table { 
+      font-size: 13px !important; 
+      width: 100% !important; 
+    }
+    th, td { padding: 6px !important; }
+  }
+
+/* ໂຄດໃໝ່ສຳລັບປຸ່ມ ແລະ ໜ້າຕ່າງ Modal ແກ້ໄຂ */
+  .btn-edit {
+    background: #eef2f6;
+    color: #2463a6;
+    border: 1px solid #c9d7e8;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    transition: 0.2s;
+  }
+  .btn-edit:hover {
+    background: #2463a6;
+    color: white;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(18, 52, 91, 0.6);
+    align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    width: 90%; max-width: 600px;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-content h3 { margin-top: 0; color: var(--navy); border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .form-group { display: flex; flex-direction: column; margin-bottom: 10px; }
+  .form-group.full { grid-column: span 2; }
+  .form-group label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
+  .form-group input, .form-group select {
+    padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 14px;
+  }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+/* Style ສຳລັບຕາຕະລາງປະເມີນລັດຖະກອນ */
+  /* Style ສຳລັບຕາຕະລາງປະເມີນລັດຖະກອນ */
+  .eval-table {
+    width: 100%; 
+    border-collapse: collapse;
+    font-size: 14px; /* ປັບຕົວໜັງສືພາຍໃນຕາຕະລາງທັງໝົດໃຫ້ໃຫຍ່ຂຶ້ນເປັນ 14px */
+    border: 2px solid #000;
+  }
+  .eval-table th, .eval-table td {
+    border: 1px solid #000;
+    padding: 6px; /* ເພີ່ມຊ່ອງຫວ່າງໃນແຕ່ລະຫ້ອງໃຫ້ເບິ່ງງ່າຍຂຶ້ນ */
+    text-align: center;
+  }
+  .eval-table th {
+    font-weight: normal;
+    background-color: #fcfcfc;
+  }
+  .eval-table .main-category {
+    font-weight: bold;
+    font-size: 15px; /* ປັບຫົວຂໍ້ໃຫຍ່ໃຫ້ໃຫຍ່ຂຶ້ນນຳ */
+    padding: 10px;
+  }
+
+  /* ປັບປຸງ CSS ຂອງ .vertical-header ໃໝ່ໃຫ້ Wrap Text ໄດ້ ແລະ ປັບຄວາມສູງລົງຕື່ມອີກ */
+  .eval-table .vertical-header {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    height: 195px; /* ປັບຄວາມສູງລົງຕື່ມອີກ 30% ເຫຼືອປະມານ 195px */
+    white-space: normal; 
+    word-break: break-word; 
+    text-align: left;
+    padding: 8px 5px;
+    font-size: 14px; 
+    line-height: 1.6; 
+    width: 45px; 
+    max-width: 45px;
+  }
+
+  .eval-table .big-number {
+    font-size: 80px;
+    font-weight: bold;
+    font-family: 'Times New Roman', serif;
+  }
+  .cross-hatch {
+    background-color: #c7c0a6; /* ສີພື້ນສີໄຂ່ອ່ອນ ຕາມຮູບທີ 2 */
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+/* ໂຄດເພີ່ມໃໝ່ສຳລັບຊ່ອງປ້ອນຄະແນນ */
+  .score-input {
+    width: 45px;
+    padding: 4px;
+    text-align: center;
+    border: 1px solid #b3cce6;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--navy);
+  }
+  .score-input:focus {
+    outline: 2px solid var(--blue);
+    background: #eaf4ff;
+  }
+  /* ເຊື່ອງລູກສອນຂຶ້ນລົງໃນ input number */
+  .score-input::-webkit-outer-spin-button,
+  .score-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>ລະບົບປະເມີນລັດຖະກອນສຶກສາ</h1>
+      <p>ພະແນກສຶກສາທິການ ແລະ ກິລາ · ແຂວງໄຊຍະບູລີ</p>
+    </div>
+    <div class="actions">
+      <button class="btn primary" onclick="window.print()">🖨 ພິມ / PDF</button>
+    </div>
+  </header>
+  
+  <main>
+  <div class="layout">
+    <!-- ພາກສ່ວນຊ້າຍມື (ກ່ອງສີແດງ 1) -->
+    <aside>
+      <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 5px;">📅 ສົກປີປະເມີນ:</div>
+      <select class="group-select" id="yearSelect" onchange="changeEvalYear(this.value)" style="margin-bottom: 15px; background-color: #1d5d9c;">
+        <!-- JavaScript ຈະສ້າງຕົວເລືອກປີໃຫ້ອັດຕະໂນມັດ -->
+      </select>
+
+      <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 5px;">📝 ຈັດການຂໍ້ມູນລັດຖະກອນ:</div>
+      <div class="tabs" id="tabs"></div>
+      
+      <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 20px; margin-bottom: 5px;">✍️ ປ້ອນຄະແນນປະເມີນ:</div>
+      <button class="btn-sidebar" onclick="openInputCard()">➕ ປ້ອນຂໍ້ມູນປະເມີນ</button>
+      
+      <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 20px; margin-bottom: 5px;">📋 ຕາຕະລາງປະເມີນ:</div>
+      <select class="group-select" id="evalGroupSelect" onchange="openEvalTable(parseInt(this.value))">
+        <option value="" disabled selected hidden>ເລືອກກຸ່ມເພື່ອປະເມີນ...</option>
+      </select>
+    </aside>
+
+    <!-- ພາກສ່ວນຂວາມື (ກ່ອງສີແດງ 2 ແລະ 3) -->
+    <section>
+      <div class="card" id="employeeCard">
+        <h2>I. ຂໍ້ມູນກ່ຽວກັບລັດຖະກອນ</h2>
+        <div class="table-responsive">
+          <table class="emp-table">
+            <thead>
+              <tr>
+                <th>ລຳດັບ</th>
+                <th>ຊື່ ແລະ ນາມສະກຸນ</th>
+                <th>ລະຫັດ ລັດຖະກອນ</th>
+                <th>ວັນ/ເດືອນ/ປີ ບັນຈຸເປັນ<br>ລັດຖະກອນສົມບູນ</th>
+                <th>ປະເພດ<br>ພະນັກງານ-ລັດຖະກອນ</th>
+                <th>ອາຍຸການ</th>
+                <th>ປະເພດ<br>ຕໍາແໜ່ງ</th>
+                <th>ໜ້າທີ່ຮັບຜິດຊອບ</th>
+                <th>ບ່ອນສັງກັດ</th>
+                <th class="no-print">ຈັດການ</th>
+              </tr>
+            </thead>
+            <tbody id="empBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ໜ້າຕ່າງປ້ອນຂໍ້ມູນປະເມີນ (ໃໝ່) -->
+      <div class="card" id="inputCard" style="display: none;">
+        <div class="header-title">
+          <h2 style="margin: 0;">III. ປ້ອນຄະແນນປະເມີນ (ຄະແນນ 0-10)</h2>
+          <button class="btn gray" onclick="closeInputCard()">🔙 ກັບຄືນໜ້າຂໍ້ມູນ</button>
+        </div>
+        
+        <div class="form-grid" style="background: #f9fbfd; padding: 15px; border-radius: 8px; border: 1px solid var(--line); margin-bottom: 15px;">
+          <div class="form-group full">
+            <label>ເລືອກກຸ່ມ ເພື່ອປ້ອນຄະແນນ (ແບບປິດລັບ):</label>
+            <select id="inputGroupSelect" onchange="renderAllEvaluationTables(this.value)">
+              <option value="" disabled selected hidden>ເລືອກກຸ່ມ...</option>
+            </select>
+          </div>
+        </div>
+        
+        <div id="evaluationFormArea" style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
+          <div style="text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px;">
+            ກະລຸນາເລືອກກຸ່ມ ດ້ານເທິງ ເພື່ອສະແດງໃບປະເມີນທັງໝົດ
+          </div>
+        </div>
+      </div>
+
+      <!-- ຕາຕະລາງປະເມີນ (ຖືກຍ້າຍອອກມານອກ footer ໃຫ້ຖືກຕ້ອງແລ້ວ) -->
+      <div class="card" id="evalCard" style="display: none;">
+        <div class="header-title">
+          <h2 style="margin: 0;">II. ຕາຕະລາງປະເມີນຜົນ</h2>
+          <button class="btn gray" onclick="closeEvalTable()">🔙 ກັບຄືນໜ້າຂໍ້ມູນ</button>
+        </div>
+        <div class="table-responsive">
+          <table class="eval-table">
+            <thead>
+              <tr id="evalHeaders">
+                <th rowspan="2" colspan="2" class="big-number">1</th>
+                <!-- ຫົວຂໍ້ແນວຕັ້ງຈະຖືກສ້າງດ້ວຍ JavaScript -->
+              </tr>
+              <tr>
+                <th colspan="10" class="main-category">ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ</th>
+                <th colspan="10" class="main-category">ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ</th>
+                <th colspan="9" class="main-category">ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ</th>
+              </tr>
+            </thead>
+            <tbody id="evalBody"></tbody>
+          </table>
+        </div>
+      </div>
+<!-- ໜ້າຕ່າງສະແດງໃບສັງລວມປະເມີນສ່ວນບຸກຄົນ (ໃໝ່) -->
+      <div class="card" id="summaryCard" style="display: none;">
+        <div class="header-title no-print">
+          <h2 style="margin: 0;">📄 ໃບສັງລວມຄະແນນປະເມີນ (ແບບພິມ)</h2>
+          <div style="display:flex; gap:10px;">
+            <button class="btn primary" onclick="window.print()">🖨 ພິມ / PDF</button>
+            <button class="btn gray" onclick="closeSummaryCard()">🔙 ກັບຄືນ</button>
+          </div>
+        </div>
+        <div id="printArea" style="background: white; color: black; font-size: 13px; line-height: 1.5; flex: 1; overflow-y: auto; padding-right: 10px; padding-bottom: 30px;">
+          <!-- ຂໍ້ມູນຈະຖືກສ້າງໂດຍ JavaScript ອັດຕະໂນມັດ -->
+        </div>
+      </div>
+      <footer>
+        <div class="marquee">ສ້າງ ແລະ ພັດທະນາໂດຍ: ອາຈານ ບຸນແຕ່ງ ຊົ່ງຕົງມົວ ໂທ: 02059456999, 02099444448</div>
+      </footer>
+    </section>
+  </div>
+<!-- ໂຄດໃໝ່ Modal ແກ້ໄຂຂໍ້ມູນ -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3>✏️ ແກ້ໄຂຂໍ້ມູນລັດຖະກອນ</h3>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>ກຸ່ມ (ຍ້າຍກຸ່ມ):</label>
+          <select id="editGroup"></select>
+        </div>
+        <div class="form-group">
+          <label>ຊື່ ແລະ ນາມສະກຸນ:</label>
+          <input type="text" id="editName">
+        </div>
+        <div class="form-group">
+          <label>ລະຫັດ ລັດຖະກອນ:</label>
+          <input type="text" id="editCode">
+        </div>
+        <div class="form-group">
+          <label>ວັນ/ເດືອນ/ປີ ບັນຈຸ:</label>
+          <input type="text" id="editDate">
+        </div>
+        <div class="form-group">
+          <label>ປະເພດພະນັກງານ:</label>
+          <input type="text" id="editType">
+        </div>
+        <div class="form-group">
+          <label>ອາຍຸການ (ປີ):</label>
+          <input type="text" id="editAge">
+        </div>
+        <div class="form-group">
+          <label>ປະເພດຕໍາແໜ່ງ:</label>
+          <input type="text" id="editPosType">
+        </div>
+        <div class="form-group">
+          <label>ໜ້າທີ່ຮັບຜິດຊອບ:</label>
+          <input type="text" id="editDuty">
+        </div>
+        <div class="form-group">
+          <label>ບ່ອນສັງກັດ:</label>
+          <input type="text" id="editLocation">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn gray" onclick="closeModal()">ຍົກເລີກ</button>
+        <button class="btn primary" onclick="saveEmployee()">💾 ບັນທຶກ</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const EMPLOYEES = [
+  // 0. ກຸ່ມ ກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ
+  [
+    { "id": 1, "name": "ນ. ສີທອນ ຄຳອ່ອນ", "code": "111300801001", "date": "01/04/1995", "type": "ບໍລິຫານ", "age": "31", "pos_type": "4", "duty": "ຮອງຫົວໜ້າພະແນກ", "location": "ພະແນກ ສກຂ.ຊຍ" },
+    { "id": 2, "name": "ທ. ຫຼ້າ ໄຊຍະສິດ", "code": "205750803001", "date": "01/10/1999", "type": "ບໍລິຫານ", "age": "27", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 3, "name": "ນ. ພຸດສະດີ ສາຍທອງມະນີ", "code": "108750801004", "date": "01/04/2006", "type": "ບໍລິຫານ", "age": "20", "pos_type": "5", "duty": "ຜູ້ອຳນວຍການສູນ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 4, "name": "ນ. ອົ້ວ ອ່ອນຟ້າ", "code": "109740801001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 5, "name": "ທ. ຖາວອນ ຂຸນທອງ", "code": "210810801002", "date": "01/04/2006", "type": "ບໍລິຫານ", "age": "20", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 6, "name": "ນ. ສອນເພັດ ສີບຸນຄົງ", "code": "105840803002", "date": "01/09/2009", "type": "ບໍລິຫານ", "age": "17", "pos_type": "6", "duty": "ຮອງຜູ້ອຳນວຍການສູນ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 7, "name": "ທ. ຄໍາສອນ ຫຼວງແກ້ວ", "code": "208810801002", "date": "01/04/2005", "type": "ວິຊາການ", "age": "21", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 8, "name": "ທ. ເພັດ ບັນດາສັກ", "code": "204860801003", "date": "01/10/2008", "type": "ວິຊາການ", "age": "18", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 9, "name": "ທ. ສອນໄຊ ໂສພາ", "code": "202850801003", "date": "01/03/2014", "type": "ວິຊາການ", "age": "12", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 10, "name": "ນ. ສີວຽງຄຳ ຖໍ່", "code": "104930801001", "date": "01/07/2020", "type": "ວິຊາການ", "age": "6", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 11, "name": "ນ. ບົວວັນ ສ້ອຍວັນ", "code": "112830801003", "date": "01/09/2010", "type": "ວິຊາການ", "age": "16", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 12, "name": "ນ. ສາຍຕາ ມີຈະເລີນ", "code": "106900801004", "date": "01/03/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 13, "name": "ນ. ສົມຈິດ ສິດທິພອນ", "code": "109850801004", "date": "01/09/2010", "type": "ວິຊາການ", "age": "16", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 14, "name": "ທ. ສົ່ງສຽງ ສີສະຫວາດ", "code": "212900807001", "date": "01/03/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 15, "name": "ທ. ສາຄອນ ຈັນມະໂນ", "code": "210820801005", "date": "01/04/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ" },
+    { "id": 16, "name": "ນ. ພວງວັນ ແກ້ວລຸນທອງ", "code": "112880708005", "date": "01/07/2021", "type": "ວິຊາການ", "age": "5", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 17, "name": "ທ. ເຈີປໍຊົງ ຊື່ນູ", "code": "203790602001", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" },
+    { "id": 18, "name": "ນ. ແສງດາວ ສີສົມສັກ", "code": "108760801001", "date": "01/10/2005", "type": "ວິຊາການ", "age": "21", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນພັດທະນາເດັກ" }
+  ],
+  // 1. ກຸ່ມ ບໍລິຫານ ແລະ ການເງິນ
+  [
+    { "id": 1, "name": "ທ. ອິນທີ ຈັນປະເສີດເຮີ", "code": "203810801002", "date": "01/10/2005", "type": "ບໍລິຫານ", "age": "21", "pos_type": "2", "duty": "ຫົວໜ້າພະແນກ", "location": "ພະແນກສຶກສາ" },
+    { "id": 2, "name": "ທ. ທຳມະຈິດ ແກ່ນທອງດີ", "code": "212720808003", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 3, "name": "ທ. ສົມຈິດ ຂາວສະອາດ", "code": "204830803001", "date": "01/10/2007", "type": "ບໍລິຫານ", "age": "19", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 4, "name": "ນ. ຄໍາຕູ້ມ ຄໍານວນ", "code": "101790801002", "date": "01/04/2001", "type": "ບໍລິຫານ", "age": "25", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 5, "name": "ທ. ເພັດພູໄຊ ໄຊຍະວົງ", "code": "203840401006", "date": "01/10/2011", "type": "ບໍລິຫານ", "age": "15", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 6, "name": "ທ. ລໍາພູນ ນາດາ", "code": "209850101003", "date": "01/03/2008", "type": "ວິຊາການ", "age": "18", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 7, "name": "ນ. ສຸນິສາ ພິລາກອນ", "code": "104900801006", "date": "01/03/2013", "type": "ວິຊາການ", "age": "13", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 8, "name": "ທ. ລຳພັນ ລອຍທິກຸນ", "code": "211780801002", "date": "01/04/2001", "type": "ວິຊາການ", "age": "25", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 9, "name": "ນ. ສະຫວີວັນ ສິດທິປັນຍາ", "code": "111850801006", "date": "01/09/2011", "type": "ວິຊາການ", "age": "15", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 10, "name": "ທ. ສົມມະໂນ ຫຼໍ່", "code": "210830801003", "date": "01/09/2009", "type": "ວິຊາການ", "age": "17", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 11, "name": "ທ. ເພັດສາຄອນ ນວນລະແສງ", "code": "201910103002", "date": "01/03/2016", "type": "ວິຊາການ", "age": "10", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 12, "name": "ນ. ແສງແກ້ວ ມີໄຊ", "code": "111830301004", "date": "01/09/2011", "type": "ວິຊາການ", "age": "15", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 13, "name": "ນ. ສະພານທອງ ທີແກ້ວ", "code": "107910801006", "date": "01/01/2019", "type": "ວິຊາການ", "age": "7", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 14, "name": "ນ. ໄຄຄູນ ພານຸວົງ", "code": "112830102002", "date": "01/09/2010", "type": "ວິຊາການ", "age": "16", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 15, "name": "ທ. ຈອນສັນ ສິງເພັດ", "code": "203830801007", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 16, "name": "ທ. ຄຳຫຼ້າ ຄຳອ່ອນ", "code": "211820801009", "date": "01/01/2018", "type": "ວິຊາການ", "age": "8", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" },
+    { "id": 17, "name": "ທ. ພອນສະນຸກ ບົວຕົງມົວ", "code": "212870801002", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງບໍລິຫານ ແລະ ການເງິນ" }
+  ],
+  // 2. ກຸ່ມ ຈັດຕັ້ງ-ກວດກາ
+  [
+    { "id": 1, "name": "ທ. ບຸນທະວີ ໂສພາ", "code": "202750801002", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "4", "duty": "ຮອງຫົວໜ້າພະແນກ", "location": "ພະແນກ ສກຂ.ຊຍ" },
+    { "id": 2, "name": "ທ. ປະນົມພອນ ມະຫາໄຊ", "code": "210820801001", "date": "01/04/2006", "type": "ບໍລິຫານ", "age": "20", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 3, "name": "ທ. ຈັນທະບູລີ ຄຳພູມີ", "code": "208740801002", "date": "01/10/2000", "type": "ບໍລິຫານ", "age": "26", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງສະຖິຕິ,ແຜນການ" },
+    { "id": 4, "name": "ນ. ພອນມະນີ ທຳມະຈັນ", "code": "102830801003", "date": "01/10/2006", "type": "ບໍລິຫານ", "age": "20", "pos_type": "5", "duty": "ຜູ້ອຳນວຍການສູນ", "location": "ສູນໄອຊີທີ" },
+    { "id": 5, "name": "ນ. ພິມພອນ ສີຈະເລີນ", "code": "107800801001", "date": "01/04/2001", "type": "ບໍລິຫານ", "age": "25", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງກວດກາ,ປະເມີນຜົນ" },
+    { "id": 6, "name": "ທ ສົມພຽນ ເທບພະທອງ", "code": "212750803001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 7, "name": "ທ. ດອນແພງ ຫອມກິ່ນແກ້ວ", "code": "209850301006", "date": "01/09/2012", "type": "ບໍລິຫານ", "age": "14", "pos_type": "6", "duty": "ຮອງຜູ້ອຳນວຍການສູນ", "location": "ສູນໄອຊີທີ" },
+    { "id": 8, "name": "ທ. ໂພແກ້ວ ດວງດີ", "code": "207890801004", "date": "01/03/2013", "type": "ບໍລິຫານ", "age": "13", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງສະຖິຕິ-ແຜນການ" },
+    { "id": 9, "name": "ທ. ໄພວົງ ດ້ວງເງິນ", "code": "203710801001", "date": "01/10/1996", "type": "ບໍລິຫານ", "age": "30", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງກວດກາ-ປະເມີນຜົນ" },
+    { "id": 10, "name": "ນ. ເພັດສະຫວັນ ພະດວງເດດ", "code": "107750801001", "date": "01/10/1998", "type": "ວິຊາການ", "age": "28", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 11, "name": "ນ. ທິວາພັນ ສັດທາວັນ", "code": "104880801008", "date": "01/03/2014", "type": "ວິຊາການ", "age": "12", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 12, "name": "ນ. ອໍລະໄທ ພົມປັນຍາ", "code": "108820501003", "date": "01/04/2004", "type": "ວິຊາການ", "age": "22", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 13, "name": "ທ. ວຽງພູທອງ ວົງເພຍເທບ", "code": "208850807002", "date": "01/07/2019", "type": "ວິຊາການ", "age": "7", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງຈັດຕັ້ງ-ພະນັກງານ" },
+    { "id": 14, "name": "ນ. ນະພາວັນ ໄຊຍະສິດ", "code": "112820301007", "date": "01/10/2004", "type": "ວິຊາການ", "age": "22", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສະຖິຕິ-ແຜນການ" },
+    { "id": 15, "name": "ນ. ບົວຄຳ ວັນພັນ", "code": "101820801002", "date": "01/10/2003", "type": "ວິຊາການ", "age": "23", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກວດກາ,ປະເມີນຜົນ" },
+    { "id": 16, "name": "ທ. ທອງໄຫວ ພັນທະວົງ", "code": "208880801008", "date": "01/03/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກວດກາ,ປະເມີນຜົນ" },
+    { "id": 17, "name": "ນ. ຄອນມະນີ ຈັນທະວົງ", "code": "109840801005", "date": "01/10/2008", "type": "ວິຊາການ", "age": "18", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 18, "name": "ນ. ນ້ຳອ້ອຍ ອີນທິສິດ", "code": "104890801003", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 19, "name": "ນ. ຄິດຖະໜອມ ບຸດບົວທອງ", "code": "209840801003", "date": "01/10/2008", "type": "ວິຊາການ", "age": "18", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 20, "name": "ນ.ຈຳປາຫວ່າງ ກຼ່າໄຊຮົ່ວ", "code": "101871012001", "date": "01/03/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 21, "name": "ນ. ພອນນາລີ ໂພທິລັກ", "code": "109920801004", "date": "01/01/2020", "type": "ວິຊາການ", "age": "6", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 22, "name": "ທ. ເກດໂພສີ ມະນີວົງ", "code": "205850801008", "date": "01/03/2014", "type": "ວິຊາການ", "age": "12", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ສູນໄອຊີທີ" },
+    { "id": 23, "name": "ທ. ພອນປະເສີດ ຂັນທະຈັກ", "code": "202910801002", "date": "01/04/2016", "type": "ວິຊາການ", "age": "10", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສະຖິຕິ-ແຜນການ" },
+    { "id": 24, "name": "ທ. ບຸນແຕ່ງ ຊົງຕົງມົວ", "code": "203780801001", "date": "01/03/2013", "type": "ວິຊາການ", "age": "13", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງກວດກາ,ປະເມີນຜົນ" },
+    { "id": 25, "name": "ນ. ບຸນທ່ຽງ ພັນທະລັງສີ", "code": "101800801006", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສະຖິຕິ-ແຜນການ" }
+  ],
+  // 3. ກຸ່ມ ວິຊາການ (ລວມ 1 ແລະ 2)
+  [
+    { "id": 1, "name": "ທ. ທອງພັນ ສິງແກ້ວ", "code": "208700801001", "date": "01/09/1990", "type": "ບໍລິຫານ", "age": "36", "pos_type": "4", "duty": "ຮອງຫົວໜ້າພະແນກ", "location": "ພະແນກ ສກຂ.ຊຍ" },
+    { "id": 2, "name": "ທ. ປອ ຄຳຄ່ອງ ສີບົວຄຳ", "code": "206670810001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງພັດທະນາຄູ" },
+    { "id": 3, "name": "ທ. ຕູ້ ສົມບັດ", "code": "20670806001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 4, "name": "ທ. ສຸນີ ວິໄລສອນ", "code": "209860801001", "date": "01/10/2008", "type": "ບໍລິຫານ", "age": "18", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງພັດທະນາຄູ" },
+    { "id": 5, "name": "ທ. ສຸກສົມພົງ ບັນຈົງ", "code": "210800801002", "date": "01/10/2005", "type": "ບໍລິຫານ", "age": "21", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 6, "name": "ທ. ສອນເພັດ ມານິດ", "code": "212720801002", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງພັດທະນາຄູ" },
+    { "id": 7, "name": "ທ. ອານຸສິນ ພັນທະລາສີ", "code": "203861101001", "date": "01/09/2010", "type": "ບໍລິຫານ", "age": "16", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 8, "name": "ທ. ເພັດ ພຸດຈັນເພັງ", "code": "104810801002", "date": "01/10/2007", "type": "ວິຊາການ", "age": "19", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 9, "name": "ນ. ສອນທະລີ ຜິວພັນ", "code": "107840801001", "date": "01/04/2006", "type": "ວິຊາການ", "age": "20", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 10, "name": "ນ. ພອນບູລີ ມະນີວົງ", "code": "110860801001", "date": "01/04/2007", "type": "ວິຊາການ", "age": "19", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 11, "name": "ນ. ແພງຈິດ ທໍ", "code": "105890801002", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງສາມັນສຶກສາ" },
+    { "id": 12, "name": "ນ. ພົມແດນ ທຳມະວົງ", "code": "103900801005", "date": "01/03/2014", "type": "ວິຊາການ", "age": "12", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງພັດທະນາຄູ" },
+    { "id": 13, "name": "ທ. ຊາຍ ຄຳເຄື່ອງ", "code": "208840803003", "date": "01/03/2014", "type": "ວິຊາການ", "age": "12", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຫ້ອງການກຳມາທິການສຶກສາສົງແຂວງ" },
+    { "id": 14, "name": "ນ. ສຸດາພອນ ພີມມະວົງ", "code": "110830601005", "date": "01/03/2011", "type": "ວິຊາການ", "age": "15", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຫ້ອງການກຳມາທິການສຶກສາສົງແຂວງ" },
+    { "id": 15, "name": "ນ. ພັດທະນາ ໃຈເລີດ", "code": "107860801007", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 16, "name": "ນ. ຄໍາມະນີ ພິມພາ", "code": "111900801001", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 17, "name": "ນ. ຄໍາພັກ ວັນເບີກບານ", "code": "112910801003", "date": "01/09/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 18, "name": "ນ. ຄໍາພຽນ ຈະເລີນຊັບ", "code": "109900801004", "date": "01/09/2012", "type": "ວິຊາການ", "age": "14", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 19, "name": "ທ. ວິໄລສິດ ໂພທິລັກ", "code": "206920801001", "date": "01/07/2020", "type": "ວິຊາການ", "age": "6", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 20, "name": "ນ. ມະນີລາ ອິນທະວົງ", "code": "101870801006", "date": "01/01/2018", "type": "ວິຊາການ", "age": "8", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ຊົນເຜົ່າ" },
+    { "id": 21, "name": "ນ. ກັນນິກາ ເພັດໂຍທິນ", "code": "105850801004", "date": "01/09/2009", "type": "ວິຊາການ", "age": "17", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງພັດທະນາຄູ" },
+    { "id": 22, "name": "ນ. ແສງມາລາ ສຸກຜາລີ", "code": "105750801004", "date": "01/04/2006", "type": "ວິຊາການ", "age": "20", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ໄຊຍະບູລີ" },
+    { "id": 23, "name": "ທ. ຈັນທະວີ ວັນນະພາຜົນ", "code": "203700801001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "4", "duty": "ຮອງຫົວໜ້າພະແນກ", "location": "ພະແນກສຶກສາ ສກຂ.ຊຍ" },
+    { "id": 24, "name": "ທ. ທອງດີ ເນົາວັນເພັງ", "code": "212821610001", "date": "01/10/2004", "type": "ບໍລິຫານ", "age": "22", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງວິທະຍາສາດ,ອາຊີວະສຶກສາ" },
+    { "id": 25, "name": "ທ. ເວີນນະຈິດ ກິດຕິຄຸນ", "code": "209760803001", "date": "01/04/2001", "type": "ບໍລິຫານ", "age": "25", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງການສຶກສາກ່ອນໄວຮຽນ" },
+    { "id": 26, "name": "ທ. ຄອນສະຫວັນ ສັດທາວັນ", "code": "205780801001", "date": "01/04/2001", "type": "ບໍລິຫານ", "age": "25", "pos_type": "5", "duty": "ຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງການສຶກສານອກໂຮງຮຽນ" },
+    { "id": 27, "name": "ທ. ທອງໂພ ສຸກສະຫັວດ", "code": "211710801002", "date": "01/04/2005", "type": "ບໍລິຫານ", "age": "21", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງວິທະຍາສາດ,ອາຊີວະສຶກສາ" },
+    { "id": 28, "name": "ນ. ມະໄລວັນ ປິ່ນທິບ", "code": "108750801001", "date": "01/10/1996", "type": "ບໍລິຫານ", "age": "30", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງການສຶກສາກ່ອນໄວຮຽນ" },
+    { "id": 29, "name": "ທ. ເຊັ່ງ ທ່າວ", "code": "212840801003", "date": "01/04/2015", "type": "ບໍລິຫານ", "age": "11", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງວິທະຍາສາດ,ອາຊີວະສຶກສາ" },
+    { "id": 30, "name": "ທ. ຄຳພາດ ແກ້ວມະນີວັນ", "code": "207840806004", "date": "01/03/2015", "type": "ບໍລິຫານ", "age": "11", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຫ້ອງການ", "location": "ຫ້ອງການກຳມາທິການສຶກສາສົງແຂວງ" },
+    { "id": 31, "name": "ທ. ສຸລິນທອງ ຟອງພະຈັນ", "code": "211770801001", "date": "01/10/1998", "type": "ບໍລິຫານ", "age": "28", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງການສຶກສານອກໂຮງຮຽນ" },
+    { "id": 32, "name": "ນ. ລິນທະເສີມ ຈະເລີນຊັບ", "code": "112870801001", "date": "01/10/2007", "type": "ບໍລິຫານ", "age": "19", "pos_type": "6", "duty": "ຮອງຫົວໜ້າຂະແໜງ", "location": "ຂະແໜງການສຶກສາກ່ອນໄວຮຽນ" },
+    { "id": 33, "name": "ນ. ທອງວັນ ຂັນແກ້ວ ", "code": "111910810001", "date": "01/03/2013", "type": "ບໍລິຫານ", "age": "13", "pos_type": "7", "duty": "ຮອງຫົວໜ້າໜ່ວຍງານ", "location": "ໂຮງຮຽນ ມ.ສ ສົງ" },
+    { "id": 34, "name": "ນ. ອິນຂຽນ ປັນຍາທອງ", "code": "105810801002", "date": "01/04/2008", "type": "ວິຊາການ", "age": "18", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງການສຶກສານອກໂຮງຮຽນ" },
+    { "id": 35, "name": "ນ. ແສງເພັດ ສອນພັນ", "code": "101810801002", "date": "01/10/2005", "type": "ວິຊາການ", "age": "21", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງການສຶກສານອກໂຮງຮຽນ" },
+    { "id": 36, "name": "ນ. ບົວອອນ ພັນທະວົງ", "code": "102860801002", "date": "01/04/2009", "type": "ວິຊາການ", "age": "17", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງການສຶກສານອກໂຮງຮຽນ" },
+    { "id": 37, "name": "ນ. ວິໄລສຸກ ໂພທິລັກ", "code": "109890801001", "date": "01/09/2011", "type": "ວິຊາການ", "age": "15", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງການສຶກສາກ່ອນໄວຮຽນ" },
+    { "id": 38, "name": "ນ. ບົວວອນ ສິດທິພອນ", "code": "106910801002", "date": "01/03/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນເຕັກນິກ-ວິຊາຊີບ" },
+    { "id": 39, "name": "ນ. ດາວມ້ອນ ຂັນແກ້ວ", "code": "109910801009", "date": "01/07/2021", "type": "ວິຊາການ", "age": "5", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງ ອາຊີວະສຶກສາ " },
+    { "id": 40, "name": "ນ. ຈິດຕະກອນ ສີມະນີວົງ", "code": "109860801001", "date": "01/04/2009", "type": "ວິຊາການ", "age": "17", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ໄຊຍະບູລີ" },
+    { "id": 41, "name": "ນ. ບົວວອນ ເພັດສະໄຫວ", "code": "101800801007", "date": "01/09/2013", "type": "ວິຊາການ", "age": "13", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ໄຊຍະບູລີ" },
+    { "id": 42, "name": "ນ. ພູມມາລີ ມະນີວົງ", "code": "101800801004", "date": "01/10/2005", "type": "ວິຊາການ", "age": "21", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນ ມສ ໄຊຍະບູລີ" },
+    { "id": 43, "name": "ນ. ດວງໃຈ ແກ້ວວິໄລ", "code": "107900801012", "date": "01/03/2015", "type": "ວິຊາການ", "age": "11", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ໂຮງຮຽນເຕັກນິກ-ວິຊາຊີບ" },
+    { "id": 44, "name": "ນ. ພິລາພອນ ເພັງພະຈັນ", "code": "112940809001", "date": "01/07/2024", "type": "ວິຊາການ", "age": "2", "pos_type": "ວ", "duty": "ວິຊາການ", "location": "ຂະແໜງການສຶກສາກ່ອນໄວຮຽນ" }
+  ]
+];
+
+const SHEETS = [
+  "ກຸ່ມ ກິລາ-ກາຍະກຳ ແລະ ສິລະປະສຶກສາ",
+  "ກຸ່ມ ບໍລິຫານ ແລະ ການເງິນ",
+  "ກຸ່ມ ຈັດຕັ້ງ-ກວດກາ",
+  "ກຸ່ມ ວິຊາການ"
+];
+
+let active = 0;
+let activeEval = 0; // ເພີ່ມຕົວແປສຳລັບແຍກກຸ່ມຂອງຕາຕະລາງປະເມີນໂດຍສະເພາະ
+
+// ດຶງຄ່າປີປະຈຸບັນຈາກເຄື່ອງ (ເຊັ່ນ 2026) ແລ້ວບວກ 1 ໃຫ້ເປັນສົກປີປະເມີນອັດຕະໂນມັດ
+const realCurrentYear = new Date().getFullYear();
+let currentEvalYear = (realCurrentYear + 1).toString();
+
+function changeEvalYear(year) {
+  currentEvalYear = year;
+  
+  // ອັບເດດຫົວຂໍ້ ໃຫ້ສະແດງປີປະຈຸບັນ
+  const mainHeader = document.querySelector('header h1');
+  if(mainHeader) mainHeader.innerText = `ລະບົບປະເມີນລັດຖະກອນສຶກສາ ປີ ${year}`;
+  
+  // ຖ້າກຳລັງເປີດໜ້າຕາຕະລາງປະເມີນຢູ່ ໃຫ້ໂຫຼດຂໍ້ມູນປີໃໝ່
+  if (document.getElementById('evalCard').style.display === 'flex') {
+    renderEvalTableBody();
+  }
+  // ຖ້າກຳລັງເປີດໜ້າປ້ອນຄະແນນຢູ່ ໃຫ້ໂຫຼດຂໍ້ມູນປີໃໝ່
+  if (document.getElementById('inputCard').style.display === 'flex') {
+    renderAllEvaluationTables(document.getElementById('inputGroupSelect').value);
+  }
+}
+
+function tabs() {
+  // ສ້າງ Dropdown ສຳລັບໜ້າຂໍ້ມູນລັດຖະກອນ
+  let options = SHEETS.map((name, i) => 
+    `<option value="${i}" ${i === active ? 'selected' : ''}>${name}</option>`
+  ).join('');
+  document.getElementById('tabs').innerHTML = `<select class="group-select" onchange="selectSheet(parseInt(this.value))">${options}</select>`;
+  
+  // ສ້າງ Dropdown ສຳລັບໜ້າຕາຕະລາງປະເມີນ
+  let evalSelect = document.getElementById('evalGroupSelect');
+  if (evalSelect && evalSelect.options.length <= 1) {
+    let evalOptions = `<option value="" disabled selected hidden>ເລືອກກຸ່ມເພື່ອປະເມີນ...</option>`;
+    evalOptions += SHEETS.map((name, i) => 
+      `<option value="${i}">${name}</option>`
+    ).join('');
+    evalSelect.innerHTML = evalOptions;
+  }
+}
+
+function selectSheet(i) {
+  active = i;
+  tabs();
+  renderEmployeeTable();
+  
+  // ເຊື່ອງໜ້າອື່ນໆແລ້ວກັບມາໜ້າຂໍ້ມູນຫຼັກ
+  document.getElementById('evalCard').style.display = 'none';
+  document.getElementById('inputCard').style.display = 'none';
+  document.getElementById('summaryCard').style.display = 'none';
+  document.getElementById('employeeCard').style.display = 'flex';
+  document.getElementById('evalGroupSelect').value = ""; 
+}
+
+function renderEmployeeTable() {
+  const empList = EMPLOYEES[active] || [];
+  let html = '';
+  
+  let displayIndex = 1;
+  empList.forEach((emp, idx) => {
+    html += `<tr id="emp_row_${idx}">
+      <td style="text-align:center">${displayIndex++}</td>
+      <td>${emp.name}</td>
+      <td style="text-align:center">${emp.code}</td>
+      <td style="text-align:center">${emp.date}</td>
+      <td style="text-align:center">${emp.type}</td>
+      <td style="text-align:center">${emp.age} ປີ</td>
+      <td style="text-align:center">${emp.pos_type}</td>
+      <td>${emp.duty}</td>
+      <td>${emp.location}</td>
+      <td class="no-print" style="text-align:center; min-width: 140px;">
+        <button class="btn-edit" onclick="openEditModal(${idx})">ແກ້ໄຂ</button>
+        <button class="btn-edit" style="background:#eaf4ff; border-color:var(--blue);" onclick="viewIndividualSummaryFromMain(${active}, ${idx})">📄 ໃບສັງລວມ</button>
+      </td>
+    </tr>`;
+  });
+  document.getElementById('empBody').innerHTML = html;
+}
+
+// ສ້າງລາຍຊື່ປີປະເມີນລົງໃນ Dropdown ອັດຕະໂນມັດ (ເລີ່ມຈາກ ປີປະຈຸບັນ+1 ຍ້ອນຫຼັງໄປຫາ 2024)
+function initYearDropdown() {
+  const yearSelect = document.getElementById('yearSelect');
+  let optionsHtml = '';
+  for (let y = realCurrentYear + 1; y >= 2024; y--) {
+    optionsHtml += `<option value="${y}">ສົກປີ ${y}</option>`;
+  }
+  if (yearSelect) {
+    yearSelect.innerHTML = optionsHtml;
+    yearSelect.value = currentEvalYear; // ຕັ້ງຄ່າ Default ໃຫ້ເປັນປີບວກ 1
+  }
+  
+  // ອັບເດດຫົວຂໍ້ທຳອິດໃຫ້ກົງກັບປີທີ່ສ້າງມາໃໝ່
+  const mainHeader = document.querySelector('header h1');
+  if(mainHeader) mainHeader.innerText = `ລະບົບປະເມີນລັດຖະກອນສຶກສາ ປີ ${currentEvalYear}`;
+}
+
+// ເລີ່ມຕົ້ນໂຫຼດແຖບ, ສົກປີ ແລະ ຕາຕະລາງທຳອິດ
+initYearDropdown();
+tabs();
+renderEmployeeTable();
+// ຕົວແປສຳລັບເກັບຂໍ້ມູນຕອນກຳລັງແກ້ໄຂ
+let editingIndex = null;
+
+function openEditModal(idx) {
+  editingIndex = idx;
+  const emp = EMPLOYEES[active][idx];
+  
+  // ສ້າງລາຍຊື່ກຸ່ມໃນ Dropdown
+  document.getElementById('editGroup').innerHTML = SHEETS.map((name, i) => 
+    `<option value="${i}" ${i === active ? 'selected' : ''}>${name}</option>`
+  ).join('');
+
+  // ເອົາຂໍ້ມູນເກົ່າໃສ່ຟອມ
+  document.getElementById('editName').value = emp.name;
+  document.getElementById('editCode').value = emp.code;
+  document.getElementById('editDate').value = emp.date;
+  document.getElementById('editType').value = emp.type;
+  document.getElementById('editAge').value = emp.age;
+  document.getElementById('editPosType').value = emp.pos_type;
+  document.getElementById('editDuty').value = emp.duty;
+  document.getElementById('editLocation').value = emp.location;
+
+  // ເປີດ Modal
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('editModal').style.display = 'none';
+  editingIndex = null;
+}
+
+function saveEmployee() {
+  if(editingIndex === null) return;
+  
+  const newGroupIndex = parseInt(document.getElementById('editGroup').value);
+  const emp = EMPLOYEES[active][editingIndex];
+
+  // ດຶງຂໍ້ມູນໃໝ່ຈາກຟອມ
+  emp.name = document.getElementById('editName').value;
+  emp.code = document.getElementById('editCode').value;
+  emp.date = document.getElementById('editDate').value;
+  emp.type = document.getElementById('editType').value;
+  emp.age = document.getElementById('editAge').value;
+  emp.pos_type = document.getElementById('editPosType').value;
+  emp.duty = document.getElementById('editDuty').value;
+  emp.location = document.getElementById('editLocation').value;
+
+  // ກວດສອບວ່າມີການຍ້າຍກຸ່ມ ຫຼື ບໍ່
+  if (newGroupIndex !== active) {
+    // ລຶບອອກຈາກກຸ່ມເກົ່າ
+    EMPLOYEES[active].splice(editingIndex, 1);
+    // ຍ້າຍໄປກຸ່ມໃໝ່ (ຕໍ່ທ້າຍ)
+    // ສ້າງ ID ໃໝ່ໃຫ້ລຳດັບຖືກຕ້ອງ
+    emp.id = EMPLOYEES[newGroupIndex].length + 1; 
+    EMPLOYEES[newGroupIndex].push(emp);
+    
+    // ຈັດລຳດັບ ID ກຸ່ມເກົ່າຄືນໃໝ່ໃຫ້ລຽງກັນ
+    EMPLOYEES[active].forEach((e, i) => e.id = i + 1);
+  }
+
+  closeModal();
+  renderEmployeeTable(); // ໂຫຼດຕາຕະລາງໃໝ່
+}
+
+// ລາຍຊື່ຫົວຂໍ້ປະເມີນແນວຕັ້ງທັງໝົດ 29 ຂໍ້ເປະໆ ຕາມແບບຟອມ
+const EVAL_CRITERIA = [
+  // ໝວດ 1: ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ (10 ຂໍ້)
+  "ເຊື່ອມຊຶມ ແລະ ເຊື່ອໝັ້ນ ຕໍ່ກັບອຸດົມການຂອງພັກ, ຫຼັກໝັ້ນມິດສັດຕຸ", 
+  "ຮູ້ແນວທາງນະໂຍບາຍ", 
+  "ຮັບຜິດຊອບວຽກງານທີ່ໄດ້ຮັບມອບໝາຍ", 
+  "ເຊື່ອໝັ້ນຕໍ່ກຳລັງແຮງຂອງມະຫາຊົນ", 
+  "ເຄົາລົບ, ປະຕິບັດ ກົດໝາຍ ແລະ ລະບຽບການ", 
+  "ເສຍສະຫຼະເພື່ອສ່ວນລວມ ແລະ ການຈັດຕັ້ງ", 
+  "ດຸໝັ້ນ, ພາກພຽນ, ສັດຊື່, ປະຫຍັດ, ປອດໃສ", 
+  "ມີລະບຽບວິໄນ ແລະ ເຄົາລົບການຈັດຕັ້ງ", 
+  "ມີນ້ຳໃຈຮັກຊາດ", 
+  "ສຸພາບຮຽບຮ້ອຍ, ເຮັດແທ້ທຳຈິງ ຮຽນຮູ້ພັດທະນາຕົນເອງ",
+
+  // ໝວດ 2: ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ (12 ຂໍ້)
+  "ຄວາມເປັນຜູ້ນຳ", 
+  "ການແກ້ໄຂບັນຫາ ແລະ ການຕັດສິນໃຈ", 
+  "ວິໄສທັດໃນການວາງແຜນຍຸດທະສາດ", 
+  "ການບໍລິຫານການປ່ຽນແປງ ເພື່ອພັດທະນາການຈັດຕັ້ງຕົນ", 
+  "ຄວາມຫ້າວຫັນໃນການປະຕິບັດວຽກງານ", 
+  "ຄວາມຄິດລິເລີ່ມ ແລະ ຫົວຄິດປະດິດສ້າງໃນການເຮັດວຽກງານ", 
+  "ການເຮັດວຽກເປັນໝູ່ຄະນະ", 
+  "ຈັນຍາບັນວິຊາຊີບ", 
+  "ການນຳໃຊ້ເຄື່ອງມື ແລະ ເຕັກໂນໂລຊີ", 
+  "ການບໍລິການ", 
+  "ການພົວພັນປະສານງານ",
+  "ການນຳໃຊ້ເຄື່ອງມືວິຊາຊີບ ໃນການປະຕິບັດ  ໜ້າທີ່ວຽກງານ",
+
+  // ໝວດ 3: ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ (8 ຂໍ້)
+  "ດ້ານການກໍານົດນະໂຍບາຍ", 
+  "ດ້ານການບໍລິຫານວຽກງານ", 
+  "ດ້ານການຄຸ້ມຄອງງົບປະມານ", 
+  "ດ້ານການຄຸ້ມຄອງພະນັກງານ", 
+  "ດ້ານຄວາມມາມາດຈັດຕັ້ງປະຕິບັດວຽກງານ", 
+  "ດ້ານການປະສານງານ", 
+  "ດ້ານການບໍລິການ", 
+  "ດ້ານການປະຕິບັດວຽກງານຕາມການມອບໝາຍ"
+];
+
+function openEvalTable(groupIndex) {
+  if (isNaN(groupIndex)) return;
+  activeEval = groupIndex; 
+
+  // ເຊື່ອງກ່ອງອື່ນ ໃຫ້ເຫຼືອແຕ່ evalCard
+  document.getElementById('employeeCard').style.display = 'none'; 
+  document.getElementById('inputCard').style.display = 'none'; 
+  document.getElementById('summaryCard').style.display = 'none';
+  document.getElementById('evalCard').style.display = 'flex';
+
+  // ສ້າງຫົວຂໍ້ແນວຕັ້ງ (ຖ້າຍັງບໍ່ທັນສ້າງ)
+  const headerRow = document.getElementById('evalHeaders');
+  if (headerRow.children.length <= 1) { // ກວດສອບວ່າມີພຽງແຕ່ຫ້ອງເລກ 1 ຫ້ອງດຽວ
+    let hHtml = '';
+    EVAL_CRITERIA.forEach(text => {
+      hHtml += `<th><div class="vertical-header">${text}</div></th>`;
+    });
+    headerRow.innerHTML += hHtml; // ໃຊ້ += ເພື່ອຕໍ່ທ້າຍຫ້ອງເລກ 1 (ບໍ່ໃຫ້ຂຽນທັບ)
+  }
+
+  renderEvalTableBody();
+}
+
+function closeEvalTable() {
+  document.getElementById('evalCard').style.display = 'none';
+  document.getElementById('employeeCard').style.display = 'flex';
+  document.getElementById('evalGroupSelect').value = ""; // ຣີເຊັດດ໋ອບດາວປະເມີນ
+}
+
+function renderEvalTableBody() {
+  if (activeEval === undefined || activeEval === "") return;
+  const empList = EMPLOYEES[activeEval] || [];
+  let html = '';
+  
+  let displayIndex = 1;
+  empList.forEach((emp, evaluateeIdx) => {
+    const category = getEmpCategory(emp);
+    
+    html += `<tr>
+      <td style="width: 30px; text-align: center;">${displayIndex++}</td>
+      <td style="text-align: left; padding: 4px 10px; min-width: 250px;">
+        ${emp.name}
+      </td>`;
+    
+    const disabledCols = getDisabledCols(category);
+    for (let i = 0; i < EVAL_CRITERIA.length; i++) {
+      if (disabledCols.includes(i)) {
+        html += `<td class="cross-hatch">X</td>`;
+      } else {
+        let sum = 0, count = 0;
+        if (SCORES_DB[currentEvalYear] && SCORES_DB[currentEvalYear][activeEval]) {
+          for(let evaluatorId in SCORES_DB[currentEvalYear][activeEval]) {
+            let scores = SCORES_DB[currentEvalYear][activeEval][evaluatorId][evaluateeIdx];
+            if(scores && scores[i] !== undefined) { sum += scores[i]; count++; }
+          }
+        }
+        let avg = count > 0 ? (sum / count).toFixed(1) : '';
+        html += `<td style="font-weight: bold; color: var(--navy); text-align: center;">${avg}</td>`;
+      }
+    }
+    html += `</tr>`;
+  });
+  
+  const evalBody = document.getElementById('evalBody');
+  if(evalBody) evalBody.innerHTML = html;
+}
+
+function viewIndividualSummaryFromMain(groupIdx, evaluateeIdx) {
+  const emp = EMPLOYEES[groupIdx][evaluateeIdx];
+  const category = getEmpCategory(emp);
+  const disabledCols = getDisabledCols(category);
+
+  // ເຊື່ອງທຸກກ່ອງອື່ນໆໃຫ້ໝົດກ่อนສະແດງໃບສັງລວມ
+  document.getElementById('employeeCard').style.display = 'none';
+  document.getElementById('evalCard').style.display = 'none';
+  document.getElementById('inputCard').style.display = 'none';
+  document.getElementById('summaryCard').style.display = 'flex';
+
+  let p1 = '', p2 = '', p3 = '';
+  let c1 = 1, c2 = 1, c3 = 1;
+
+  // ກຳນົດຄ່າ ລະດັບເນື້ອໃນ ມາດຕະຖານ ອີງຕາມປະເພດລັດຖະກອນ
+  let standardLevel = 2; // ຄ່າເລີ່ມຕົ້ນສຳລັບ ລັດຖະກອນວິຊາການ
+  if (category === "ຜູ້ບໍລິຫານສູງ") standardLevel = 5;
+  else if (category === "ຜູ້ບໍລິຫານກາງ") standardLevel = 4;
+  else if (category === "ຜູ້ບໍລິຫານຕົ້ນ") standardLevel = 3;
+  else if (category === "ຊ່ວຍບໍລິຫານ") standardLevel = 1;
+
+  // ຕົວແປເກັບຜົນລວມ ແລະ ຄະແນນສະເລ່ຍແຕ່ລະໝວດ
+  let sum1 = 0, count1 = 0;
+  let sum2 = 0, count2 = 0;
+  let sum3 = 0, count3 = 0;
+
+  for (let i = 0; i < EVAL_CRITERIA.length; i++) {
+    let isCrossHatch = disabledCols.includes(i);
+    let rowNum = i < 10 ? c1++ : (i < 22 ? c2++ : c3++);
+    let rowHtml = '';
+
+    if (isCrossHatch) {
+      rowHtml = `<tr>
+        <td style="text-align:left; padding:4px 8px; font-size:16px;">${rowNum}. ${EVAL_CRITERIA[i]}</td>
+        <td style="text-align:center; font-size:16px; font-weight:bold;">${standardLevel}</td>
+        <td colspan="5" class="cross-hatch" style="text-align:center; font-weight:bold; font-size:16px;">X</td>
+      </tr>`;
+    } else {
+      let sum = 0, count = 0;
+      if (SCORES_DB[currentEvalYear] && SCORES_DB[currentEvalYear][groupIdx]) {
+        for (let evaluatorId in SCORES_DB[currentEvalYear][groupIdx]) {
+          let scores = SCORES_DB[currentEvalYear][groupIdx][evaluatorId][evaluateeIdx];
+          if (scores && scores[i] !== undefined) { sum += scores[i]; count++; }
+        }
+      }
+      let avg = count > 0 ? (sum / count) : 0;
+
+      // ຫັກຄະແນນສະເລ່ຍມາມາລວມຕາມໝວດ
+      if (i < 10) { sum1 += avg; count1++; }
+      else if (i < 22) { sum2 += avg; count2++; }
+      else { sum3 += avg; count3++; }
+
+      let check = ["", "", "", "", ""];
+      if (count > 0) {
+        let displayAvg = avg.toFixed(1); // ແປງເປັນຕົວເລກສະເລ່ຍ 1 ຕຳແໜ່ງ
+        // ດຶງຕົວເລກມາໃສ່ຕາມເງື່ອນໄຂໃໝ່ ແຕ່ຈະໄປສະແດງໃນຫ້ອງຫົວຂໍ້ເກົ່າ
+        if (avg >= 9.0) check[0] = displayAvg;
+        else if (avg >= 7.1) check[1] = displayAvg;
+        else if (avg >= 4.1) check[2] = displayAvg;
+        else if (avg >= 2.1) check[3] = displayAvg;
+        else check[4] = displayAvg;
+      }
+
+      rowHtml = `<tr>
+        <td style="text-align:left; padding:4px 8px; font-size:16px;">${rowNum}. ${EVAL_CRITERIA[i]}</td>
+        <td style="text-align:center; font-size:16px; font-weight:bold;">${standardLevel}</td>
+        <td style="text-align:center; font-weight:bold; font-size:16px;">${check[0]}</td>
+        <td style="text-align:center; font-weight:bold; font-size:16px;">${check[1]}</td>
+        <td style="text-align:center; font-weight:bold; font-size:16px;">${check[2]}</td>
+        <td style="text-align:center; font-weight:bold; font-size:16px;">${check[3]}</td>
+        <td style="text-align:center; font-weight:bold; font-size:16px;">${check[4]}</td>
+      </tr>`;
+    }
+
+    if (i < 10) p1 += rowHtml;
+    else if (i < 22) p2 += rowHtml;
+    else p3 += rowHtml;
+  }
+
+  // ສ້າງແຖວສະຫຼຸບຜົນລວມ ແລະ ຄະແນນສະເລ່ຍຂອງແຕ່ລະໝວດ
+  let total1 = sum1.toFixed(1);
+  let avg1 = count1 > 0 ? (sum1 / count1).toFixed(1) : '0.0';
+  p1 += `
+    <tr style="background:#f2f2f2; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຜົນລວມຄະແນນ</td>
+      <td colspan="5" style="text-align:center;">${total1}</td>
+    </tr>
+    <tr style="background:#d9d9d6; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຄະແນນສະເລ່ຍ</td>
+      <td colspan="5" style="text-align:center;">${avg1}</td>
+    </tr>`;
+
+  let total2 = sum2.toFixed(1);
+  let avg2 = count2 > 0 ? (sum2 / count2).toFixed(1) : '0.0';
+  p2 += `
+    <tr style="background:#f2f2f2; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຜົນລວມຄະແນນ</td>
+      <td colspan="5" style="text-align:center;">${total2}</td>
+    </tr>
+    <tr style="background:#d9d9d6; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຄະແນນສະເລ່ຍ</td>
+      <td colspan="5" style="text-align:center;">${avg2}</td>
+    </tr>`;
+
+  let total3 = sum3.toFixed(1);
+  let avg3 = count3 > 0 ? (sum3 / count3).toFixed(1) : '0.0';
+  p3 += `
+    <tr style="background:#f2f2f2; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຜົນລວມຄະແນນ</td>
+      <td colspan="5" style="text-align:center;">${total3}</td>
+    </tr>
+    <tr style="background:#d9d9d6; font-weight:bold;">
+      <td colspan="2" style="text-align:right; padding:6px 10px;">ຄະແນນສະເລ່ຍ</td>
+      <td colspan="5" style="text-align:center;">${avg3}</td>
+    </tr>`;
+
+  let catLabel = "ລັດຖະກອນວິຊາການ";
+  if(category === "ຜູ້ບໍລິຫານສູງ") catLabel = "ຜູ້ບໍລິຫານ ລະດັບສູງ ປະເພດ 1, 2 ແລະ 3";
+  if(category === "ຜູ້ບໍລິຫານກາງ") catLabel = "ຜູ້ບໍລິຫານ ລະດັບກາງ ປະເພດ 4 ແລະ 5";
+  if(category === "ຜູ້ບໍລິຫານຕົ້ນ") catLabel = "ຜູ້ບໍລິຫານ ລະດັບຕົ້ນ ປະເພດ 6, 7 ແລະ 8";
+  if(category === "ຊ່ວຍບໍລິຫານ") catLabel = "ລັດຖະກອນຊ່ວຍວຽກບໍລິຫານ";
+
+  // --- ໂຄດໃໝ່: ຄິດໄລ່ຄະແນນພາກທີ III ອັດຕະໂນມັດ ---
+  let a1 = parseFloat(avg1) || 0;
+  let a2 = parseFloat(avg2) || 0;
+  let a3 = parseFloat(avg3) || 0;
+  
+  let w1 = (a1 * 0.15).toFixed(2);
+  let w2 = (a2 * 0.25).toFixed(2);
+  let w3 = (a3 * 0.60).toFixed(2);
+  
+  let totalScore = (parseFloat(w1) + parseFloat(w2) + parseFloat(w3)).toFixed(2);
+  
+  let grade = "";
+  if (totalScore >= 8.5) grade = "ດີຫຼາຍ";
+  else if (totalScore >= 7.5) grade = "ດີ";
+  else if (totalScore >= 4.5) grade = "ກາງ";
+  else if (totalScore >= 2.5) grade = "ອ່ອນ";
+  else grade = "ອ່ອນຫຼາຍ";
+  // ---------------------------------
+
+  document.getElementById('printArea').innerHTML = `
+    <div style="text-align: center; font-weight: bold; margin-bottom: 20px;">
+        <p style="margin: 0; font-size:14px;">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+        <p style="margin: 0; font-size:14px;">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນະຖາວອນ</p>
+    </div>
+    <div style="margin-bottom: 20px; font-weight: bold;">
+        <p style="margin: 0;">ແຂວງ ໄຊຍະບູລີ</p>
+        <p style="margin: 0;">ພະແນກສຶກສາທິການ ແລະ ກິລາ ແຂວງ</p>
+    </div>
+    <h3 style="text-align: center; margin-bottom: 20px;">ແບບພິມປະເມີນຜົນການປະຕິບັດວຽກງານຂອງພະນັກງານ-ລັດຖະກອນ ປະຈໍາປີ ${currentEvalYear}<br>
+    <span style="font-size:14px; font-weight:normal;">(${catLabel})</span></h3>
+
+    <b style="font-size:14px;">I. ຂໍ້ມູນກ່ຽວກັບລັດຖະກອນ</b>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px;" border="1">
+       <tr><td style="width:30%; padding:6px; font-weight:bold; background:#f9f9f9;">ຊື່ ແລະ ນາມສະກຸນ:</td><td style="padding:6px;">${emp.name}</td></tr>
+       <tr><td style="padding:6px; font-weight:bold; background:#f9f9f9;">ລະຫັດລັດຖະກອນ:</td><td style="padding:6px;">${emp.code}</td></tr>
+       <tr><td style="padding:6px; font-weight:bold; background:#f9f9f9;">ວັນ/ເດືອນ/ປີ ບັນຈຸ:</td><td style="padding:6px;">${emp.date}</td></tr>
+       <tr><td style="padding:6px; font-weight:bold; background:#f9f9f9;">ອາຍຸການ:</td><td style="padding:6px;">${emp.age} ປີ</td></tr>
+       <tr><td style="padding:6px; font-weight:bold; background:#f9f9f9;">ຕຳແໜ່ງ/ໜ້າທີ່:</td><td style="padding:6px;">${emp.duty}</td></tr>
+       <tr><td style="padding:6px; font-weight:bold; background:#f9f9f9;">ບ່ອນສັງກັດ:</td><td style="padding:6px;">${emp.location}</td></tr>
+    </table>
+
+    <b style="font-size:14px;">II. ເນື້ອໃນມາດຕະຖານໃນການປະເມີນຜົນ</b>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px;" border="1">
+       <tr style="background:#e6e6e6; text-align:center;">
+          <th rowspan="2" style="padding:8px;">ມາດຕະຖານ</th>
+          <th rowspan="2" style="padding:8px; width:100px;">ລະດັບເນື້ອໃນ<br>ມາດຕະຖານ</th>
+          <th colspan="5" style="padding:8px;">ການປະເມີນ</th>
+       </tr>
+       <tr style="background:#e6e6e6; text-align:center;">
+          <th style="padding:4px; width:50px;">9-10<br>ດີຫຼາຍ</th>
+          <th style="padding:4px; width:50px;">8<br>ດີ</th>
+          <th style="padding:4px; width:50px;">5-7<br>ກາງ</th>
+          <th style="padding:4px; width:50px;">3-4<br>ອ່ອນ</th>
+          <th style="padding:4px; width:50px;">1-2<br>ອ່ອນຫຼາຍ</th>
+       </tr>
+       <tr><td colspan="7" style="padding:6px; font-weight:bold; font-size:16px; background:#f0f0f0;">ກ. ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ</td></tr>
+       ${p1}
+       <tr><td colspan="7" style="padding:6px; font-weight:bold; font-size:16px; background:#f0f0f0;">ຂ. ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ</td></tr>
+       ${p2}
+       <tr><td colspan="7" style="padding:6px; font-weight:bold; font-size:16px; background:#f0f0f0;">ຄ. ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ</td></tr>
+       ${p3}
+    </table>
+
+    <b style="font-size:14px;">III. ການສັງລວມຜົນການປະເມີນຜົນການປະຕິບັດວຽກງານຂອງພະນັກງານ-ລັດຖະກອນ</b>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 20px;" border="1">
+       <tr style="background:#c7c0a6; text-align:center; font-weight:bold;">
+          <td style="padding:6px; text-align:left;">ເນື້ອໃນມາດຕະຖານໃນການປະເມີນຜົນ</td>
+          <td style="padding:6px; width:15%;">ລະດັບຄະແນນ</td>
+          <td style="padding:6px; width:20%;">ຄະແນນສະເລ່ຍ</td>
+          <td style="padding:6px; width:30%;">ລະດັບຄະແນນ X ຄະແນນສະເລ່ຍ</td>
+       </tr>
+       <tr style="text-align:center;">
+          <td style="padding:6px; text-align:left;">ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ</td>
+          <td style="padding:6px;">15%</td>
+          <td style="padding:6px;">${avg1}</td>
+          <td style="padding:6px;">${w1}</td>
+       </tr>
+       <tr style="text-align:center;">
+          <td style="padding:6px; text-align:left;">ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ</td>
+          <td style="padding:6px;">25%</td>
+          <td style="padding:6px;">${avg2}</td>
+          <td style="padding:6px;">${w2}</td>
+       </tr>
+       <tr style="text-align:center;">
+          <td style="padding:6px; text-align:left;">ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ</td>
+          <td style="padding:6px;">60%</td>
+          <td style="padding:6px;">${avg3}</td>
+          <td style="padding:6px;">${w3}</td>
+       </tr>
+       <tr style="background:#c7c0a6; font-weight:bold; text-align:center;">
+          <td colspan="3" style="padding:6px;">ລວມ</td>
+          <td style="padding:6px; font-size:15px; color:var(--navy);">${totalScore}</td>
+       </tr>
+       <tr style="font-weight:bold; text-align:center;">
+          <td colspan="3" style="padding:6px;">ຈັດລະດັບ</td>
+          <td style="padding:6px; font-size:15px; color:var(--green);">${grade}</td>
+       </tr>
+    </table>
+
+    <div style="margin-top: 25px; text-align: left; line-height: 1.8;">
+        <b style="font-size:14px;">IV. ຄຳເຫັນຕໍ່ກັບຜົນການປະເມີນຜົນ</b>
+        <div style="padding-left: 15px; margin-top: 10px;">
+            <span>ຜ່ານການຄົ້ນຄວ້າຂອງ (...........................................................................................................................................)</span><br>
+            <span>ຕໍ່ກັບການປະເມີນຜົນການປະຕິບັດວຽກງານ ໄດ້ມີບາງຄໍາເຫັນດັ່ງນີ້:</span>
+            
+            <div style="margin-top: 10px;"><b>ດ້ານດີ:</b></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+
+            <div style="margin-top: 10px;"><b>ຂໍ້ຄົງຄ້າງ:</b></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+
+            <div style="margin-top: 10px;"><b>ວິທີແກ້ໄຂ:</b></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            <div style="border-bottom: 1px dotted #000; height: 25px; width: 100%;"></div>
+            
+            <div style="margin-top: 15px;">
+                ................(ຄະນະພະແນກ.........) ໄດ້ຕົກລົງເຫັນດີຈັດປະເພດໃຫ້ ທ່ານ <b>${emp.name}</b> ຢູ່ໃນລະດັບ <b>${grade}</b><br>
+                ດັ່ງທີ່ໄດ້ສະແດງອອກໃນໃບປະເມີນຜົນການປະຕິບັດວຽກສະບັບນີ້. ດັ່ງນັ້ນ, ຈຶ່ງລາຍງານມາຍັງທ່ານເພື່ອຊາບ ແລະ ປະຕິບັດຕາມລະບຽບຫຼັກການດ້ວຍ.
+            </div>
+        </div>
+    </div>
+    
+    <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; text-align:center;">
+       <div>ລາຍເຊັນຜູ້ຖືກປະເມີນ<br><br><br><br>......................................</div>
+       <div>ຫົວໜ້າໜ່ວຍງານ<br><br><br><br>......................................</div>
+       <div>ຄະນະພະແນກ<br><br><br><br>......................................</div>
+    </div>
+  `;
+}
+
+function closeSummaryCard() {
+  document.getElementById('summaryCard').style.display = 'none';
+  // ກັບຄືນໄປໜ້າຫຼັກສະເໝີ
+  document.getElementById('employeeCard').style.display = 'flex';
+}
+
+// ==========================================
+// ຖານຂໍ້ມູນຈຳລອງ ແລະ ຟັງຊັນສຳລັບປ້ອນຄະແນນ
+// ==========================================
+const SCORES_DB = {}; // ຕົວແປນີ້ສຳຄັນຫຼາຍ ຫ້າມລຶບ
+
+// ຟັງຊັນແຍກປະເພດຕຳແໜ່ງ ອີງຕາມ pos_type ຂອງລັດຖະກອນ
+function getEmpCategory(emp) {
+  const p = String(emp.pos_type).trim();
+  if (["1", "2", "3"].includes(p)) return "ຜູ້ບໍລິຫານສູງ";
+  if (["4"].includes(p)) return "ຜູ້ບໍລິຫານກາງ";
+  if (["5", "6", "7", "8"].includes(p)) return "ຜູ້ບໍລິຫານຕົ້ນ";
+  if (emp.duty && emp.duty.includes("ຊ່ວຍ")) return "ຊ່ວຍບໍລິຫານ";
+  return "ວິຊາການ";
+}
+
+// ຟັງຊັນກຳນົດຫ້ອງທີ່ບໍ່ໄດ້ປະເມີນ (ກາທັບ X) ໃຫ້ຖືກຕ້ອງຕາມຕາຕະລາງມາດຕະຖານ
+function getDisabledCols(category) {
+  // 1. ຖ້າເປັນ ຜູ້ບໍລິຫານ (ສູງ, ກາງ, ຕົ້ນ): 
+  // ບໍ່ປະເມີນ 3 ຂໍ້ທ້າຍຂອງໝວດຄວາມຮູ້ (19, 20, 21) ແລະ 4 ຂໍ້ທ້າຍຂອງໝວດຜົນສຳເລັດ (26, 27, 28, 29)
+  if (category.includes("ຜູ້ບໍລິຫານ")) {
+    return [19, 20, 21, 26, 27, 28, 29]; 
+  } 
+  // 2. ຖ້າເປັນ ວິຊາການ ຫຼື ຊ່ວຍບໍລິຫານ: 
+  // ບໍ່ປະເມີນ 4 ຂໍ້ທຳອິດ (10, 11, 12, 13) ແລະ 2 ຂໍ້ສຸດທ້າຍ (20, 21) ຂອງໝວດຄວາມຮູ້
+  // ແລະ ບໍ່ປະເມີນ 4 ຂໍ້ທຳອິດ (22, 23, 24, 25) + ຂໍ້ສຸດທ້າຍ (29) ຂອງໝວດຜົນສຳເລັດ
+  else if (category === "ວິຊາການ" || category === "ຊ່ວຍບໍລິຫານ") {
+    return [10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 29]; 
+  }
+  return [];
+}
+
+function openInputCard() {
+  // ເຊື່ອງກ່ອງອື່ນ ໃຫ້ເຫຼືອແຕ່ inputCard
+  document.getElementById('employeeCard').style.display = 'none';
+  document.getElementById('evalCard').style.display = 'none';
+  document.getElementById('summaryCard').style.display = 'none';
+  document.getElementById('inputCard').style.display = 'flex';
+  document.getElementById('evalGroupSelect').value = "";
+
+  // ໂຫຼດລາຍຊື່ກຸ່ມໃສ່ Dropdown
+  document.getElementById('inputGroupSelect').innerHTML = `<option value="" disabled selected hidden>ເລືອກກຸ່ມ...</option>` + 
+    SHEETS.map((name, i) => `<option value="${i}">${name}</option>`).join('');
+
+  // ຣີເຊັດພື້ນທີ່ຕາຕະລາງໃຫ້ເປັນຂໍ້ຄວາມແຈ້ງເຕືອນເລີ່ມຕົ້ນ
+  document.getElementById('evaluationFormArea').innerHTML = `
+    <div style="text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px;">
+      ກະລຸນາເລືອກກຸ່ມ ດ້ານເທິງ ເພື່ອສະແດງໃບປະເມີນທັງໝົດ
+    </div>
+  `;
+}
+
+function closeInputCard() {
+  document.getElementById('inputCard').style.display = 'none';
+  document.getElementById('employeeCard').style.display = 'flex';
+}
+
+function renderAllEvaluationTables(groupIdx) {
+  if(groupIdx === "") return;
+  const empList = EMPLOYEES[groupIdx];
+  if(!empList) return; 
+  
+  // ຫຸ້ມຕາຕະລາງທັງໝົດດ້ວຍກ່ອງກວ້າງ 2000px ເພື່ອບັງຄັບໃຫ້ເກີດສະກໍບາລວມອັນດຽວຢູ່ລຸ່ມສຸດ
+  let fullHtml = '<div style="min-width: 2000px; padding-bottom: 20px;">';
+  
+  for (let evaluatorIdx = 0; evaluatorIdx < empList.length; evaluatorIdx++) {
+    fullHtml += `
+      <div style="margin-bottom: 40px;">
+        <div style="font-weight: bold; margin-bottom: 8px; color: var(--navy);">ກຳມະການປະເມີນຄົນທີ່: ${evaluatorIdx + 1}</div>
+        <div class="eval-form-scroll-container">
+          <table class="eval-table" style="width: 100%;">
+            <thead>
+              <tr>
+                <th rowspan="2" colspan="2" class="big-number" style="width: 60px;">${evaluatorIdx + 1}</th>
+                ${EVAL_CRITERIA.map(text => `<th><div class="vertical-header">${text}</div></th>`).join('')}
+              </tr>
+              <tr>
+                <th colspan="10" class="main-category">ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ</th>
+                <th colspan="12" class="main-category">ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ</th>
+                <th colspan="8" class="main-category">ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ</th>
+              </tr>
+            </thead>
+            <tbody>`;
+    
+    empList.forEach((emp, evaluateeIdx) => {
+      const category = getEmpCategory(emp);
+      const disabledCols = getDisabledCols(category);
+      
+      fullHtml += `<tr>
+        <td style="width: 40px; text-align: center;">${evaluateeIdx + 1}</td>
+        <td style="text-align: left; padding: 4px 10px; min-width: 200px; font-weight: bold;">${emp.name}</td>`;
+        
+      for (let i = 0; i < EVAL_CRITERIA.length; i++) {
+        let isCrossHatch = disabledCols.includes(i);
+        
+        if (isCrossHatch) {
+          fullHtml += `<td class="cross-hatch" style="width: 45px;">X</td>`;
+        } else {
+          let val = '';
+          if(SCORES_DB[currentEvalYear] && SCORES_DB[currentEvalYear][groupIdx] && SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx] && SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx][evaluateeIdx]) {
+            val = SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx][evaluateeIdx][i] ?? '';
+          }
+          fullHtml += `<td style="padding: 0; text-align: center; width: 45px;">
+            <input type="number" min="0" max="10" class="score-input" 
+              style="width: 100%; height: 28px; border: none; outline: none; background: transparent; text-align: center; font-size: 14px;" 
+              onchange="saveScore(${groupIdx}, ${evaluatorIdx}, ${evaluateeIdx}, ${i}, this.value)" 
+              value="${val}">
+          </td>`;
+        }
+      }
+      fullHtml += `</tr>`;
+    });
+    
+    fullHtml += `</tbody></table></div></div>`;
+  }
+  
+  fullHtml += `</div>`; // ປິດກ່ອງ min-width: 2000px
+  
+  document.getElementById('evaluationFormArea').innerHTML = fullHtml;
+}
+
+function saveScore(group, evaluator, evaluatee, criterion, value) {
+  if(!SCORES_DB[currentEvalYear]) SCORES_DB[currentEvalYear] = {};
+  if(!SCORES_DB[currentEvalYear][group]) SCORES_DB[currentEvalYear][group] = {};
+  if(!SCORES_DB[currentEvalYear][group][evaluator]) SCORES_DB[currentEvalYear][group][evaluator] = {};
+  if(!SCORES_DB[currentEvalYear][group][evaluator][evaluatee]) SCORES_DB[currentEvalYear][group][evaluator][evaluatee] = {};
+  
+  let num = parseFloat(value);
+  if(isNaN(num) || num < 0) num = 0;
+  if(num > 10) num = 10; 
+  
+  SCORES_DB[currentEvalYear][group][evaluator][evaluatee][criterion] = num;
+}
+</script>
+</body>
+</html>
