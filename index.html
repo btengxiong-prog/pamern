@@ -539,10 +539,16 @@
         </div>
         
         <div class="form-grid" style="background: #f9fbfd; padding: 15px; border-radius: 8px; border: 1px solid var(--line); margin-bottom: 15px;">
-          <div class="form-group full">
-            <label>ເລືອກກຸ່ມ ເພື່ອປ້ອນຄະແນນ (ແບບປິດລັບ):</label>
-            <select id="inputGroupSelect" onchange="renderAllEvaluationTables(this.value)">
+          <div class="form-group">
+            <label>1. ເລືອກກຸ່ມ ເພື່ອປ້ອນຄະແນນ:</label>
+            <select id="inputGroupSelect" onchange="loadEvaluators(this.value)">
               <option value="" disabled selected hidden>ເລືອກກຸ່ມ...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>2. ເລືອກກຳມະການ (ຜູ້ປະເມີນ):</label>
+            <select id="evaluatorSelect" onchange="renderSingleEvaluationTable()" disabled>
+              <option value="" disabled selected hidden>ກະລຸນາເລືອກກຸ່ມກ່ອນ...</option>
             </select>
           </div>
         </div>
@@ -819,7 +825,11 @@ function changeEvalYear(year) {
     renderEvalTableBody();
   }
   if (document.getElementById('inputCard').style.display === 'flex') {
-    renderAllEvaluationTables(document.getElementById('inputGroupSelect').value);
+    if (document.getElementById('evaluatorSelect') && document.getElementById('evaluatorSelect').value !== "") {
+      renderSingleEvaluationTable();
+    } else {
+      loadEvaluators(document.getElementById('inputGroupSelect').value);
+    }
   }
 }
 
@@ -1334,10 +1344,16 @@ function openInputCard() {
 
   document.getElementById('inputGroupSelect').innerHTML = `<option value="" disabled selected hidden>ເລືອກກຸ່ມ...</option>` + 
     SHEETS.map((name, i) => `<option value="${i}">${name}</option>`).join('');
+  
+  let evaluatorSelect = document.getElementById('evaluatorSelect');
+  if(evaluatorSelect) {
+    evaluatorSelect.innerHTML = `<option value="" disabled selected hidden>ກະລຸນາເລືອກກຸ່ມກ່ອນ...</option>`;
+    evaluatorSelect.disabled = true;
+  }
 
   document.getElementById('evaluationFormArea').innerHTML = `
     <div style="text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px;">
-      ກະລຸນາເລືອກກຸ່ມ ດ້ານເທິງ ເພື່ອສະແດງໃບປະເມີນທັງໝົດ
+      ກະລຸນາເລືອກກຸ່ມ ແລະ ຜູ້ປະເມີນ ດ້ານເທິງ ເພື່ອສະແດງໃບປະເມີນ
     </div>
   `;
 }
@@ -1345,6 +1361,86 @@ function openInputCard() {
 function closeInputCard() {
   document.getElementById('inputCard').style.display = 'none';
   document.getElementById('employeeCard').style.display = 'flex';
+}
+function loadEvaluators(groupIdx) {
+  if (groupIdx === "") return;
+  const empList = EMPLOYEES[groupIdx];
+  if (!empList) return;
+  
+  let evaluatorSelect = document.getElementById('evaluatorSelect');
+  let options = `<option value="" disabled selected hidden>ເລືອກໃບປະເມີນ...</option>`;
+  empList.forEach((emp, i) => {
+    options += `<option value="${i}">ກຳມະການ (ຜູ້ປະເມີນ) ໃບທີ ${i + 1}</option>`;
+  });
+  
+  evaluatorSelect.innerHTML = options;
+  evaluatorSelect.disabled = false;
+  
+  document.getElementById('evaluationFormArea').innerHTML = `
+    <div style="text-align: center; padding: 40px; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px;">
+      ກະລຸນາເລືອກຜູ້ປະເມີນ ເພື່ອປ້ອນຄະແນນ
+    </div>
+  `;
+}
+
+function renderSingleEvaluationTable() {
+  const groupIdx = document.getElementById('inputGroupSelect').value;
+  const evaluatorIdx = document.getElementById('evaluatorSelect').value;
+  
+  if(groupIdx === "" || evaluatorIdx === "") return;
+  const empList = EMPLOYEES[groupIdx];
+  if(!empList) return; 
+  
+  let fullHtml = '<div style="min-width: 2000px; padding-bottom: 20px;">';
+  fullHtml += `
+    <div style="margin-bottom: 40px;">
+      <div style="font-weight: bold; margin-bottom: 8px; color: var(--navy);">ກຳມະການປະເມີນ (ແບບປິດລັບ) ໃບທີ: ${parseInt(evaluatorIdx) + 1}</div>
+      <div class="eval-form-scroll-container">
+        <table class="eval-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th rowspan="2" colspan="2" class="big-number" style="width: 60px;">${parseInt(evaluatorIdx) + 1}</th>
+              ${EVAL_CRITERIA.map(text => `<th><div class="vertical-header">${text}</div></th>`).join('')}
+            </tr>
+            <tr>
+              <th colspan="10" class="main-category">ຄຸນທາດການເມືອງ, ຄຸນສົມບັດສິນທຳປະຕິວັດ</th>
+              <th colspan="12" class="main-category">ຄວາມຮູ້, ຄວາມສາມາດ ແລະ ປະສົບການ</th>
+              <th colspan="8" class="main-category">ຜົນສຳເລັດໃນການປະຕິບັດວຽກງານ</th>
+            </tr>
+          </thead>
+          <tbody>`;
+    
+  empList.forEach((emp, evaluateeIdx) => {
+    const category = getEmpCategory(emp);
+    const disabledCols = getDisabledCols(category);
+    
+    fullHtml += `<tr>
+      <td style="width: 40px; text-align: center;">${evaluateeIdx + 1}</td>
+      <td style="text-align: left; padding: 4px 10px; min-width: 200px; font-weight: bold;">${emp.name}</td>`;
+      
+    for (let i = 0; i < EVAL_CRITERIA.length; i++) {
+      let isCrossHatch = disabledCols.includes(i);
+      
+      if (isCrossHatch) {
+        fullHtml += `<td class="cross-hatch" style="width: 45px;">X</td>`;
+      } else {
+        let val = '';
+        if(SCORES_DB[currentEvalYear] && SCORES_DB[currentEvalYear][groupIdx] && SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx] && SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx][evaluateeIdx]) {
+          val = SCORES_DB[currentEvalYear][groupIdx][evaluatorIdx][evaluateeIdx][i] ?? '';
+        }
+        fullHtml += `<td style="padding: 0; text-align: center; width: 45px;">
+          <input type="number" min="0" max="10" class="score-input" 
+            style="width: 100%; height: 28px; border: none; outline: none; background: transparent; text-align: center; font-size: 14px;" 
+            onchange="saveScore(${groupIdx}, ${evaluatorIdx}, ${evaluateeIdx}, ${i}, this.value)" 
+            value="${val}">
+        </td>`;
+      }
+    }
+    fullHtml += `</tr>`;
+  });
+    
+  fullHtml += `</tbody></table></div></div></div>`;
+  document.getElementById('evaluationFormArea').innerHTML = fullHtml;
 }
 
 function renderAllEvaluationTables(groupIdx) {
@@ -1409,7 +1505,8 @@ function renderAllEvaluationTables(groupIdx) {
   document.getElementById('evaluationFormArea').innerHTML = fullHtml;
 }
 
-// 5. ບັນທຶກຄະແນນລົງ Supabase
+// 5. ບັນທຶກຄະແນນລົງ Supabase (ປັບໃໝ່ໃຫ້ມີການໜ່ວງເວລາປ້ອງກັນລະບົບຄ້າງ)
+let saveTimeout;
 function saveScore(group, evaluator, evaluatee, criterion, value) {
   if(!SCORES_DB[currentEvalYear]) SCORES_DB[currentEvalYear] = {};
   if(!SCORES_DB[currentEvalYear][group]) SCORES_DB[currentEvalYear][group] = {};
@@ -1422,9 +1519,13 @@ function saveScore(group, evaluator, evaluatee, criterion, value) {
   
   SCORES_DB[currentEvalYear][group][evaluator][evaluatee][criterion] = num;
   
-  _supabase.from('app_state').upsert({ id: 'scores', content: SCORES_DB }).then(({ error }) => {
-    if(error) console.error("Error saving score:", error);
-  });
+  // ລໍຖ້າ 1 ວິນາທີ ຖ້າມີການພິມຄະແນນໃໝ່ຈະຍົກເລີກອັນເກົ່າ ແລ້ວລວມບັນທຶກຂຶ້ນ Cloud ບາດດຽວ
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    _supabase.from('app_state').upsert({ id: 'scores', content: SCORES_DB }).then(({ error }) => {
+      if(error) console.error("Error saving score:", error);
+    });
+  }, 1000);
 }
 </script>
 </body>
