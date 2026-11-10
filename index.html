@@ -551,7 +551,10 @@
       <!-- ໜ້າຕ່າງປ້ອນຂໍ້ມູນປະເມີນ (ໃໝ່) -->
       <div class="card" id="inputCard" style="display: none;">
         <div class="header-title">
-          <h2 style="margin: 0;">III. ປ້ອນຄະແນນປະເມີນ (ຄະແນນ 0-10)</h2>
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <h2 style="margin: 0;">III. ປ້ອນຄະແນນປະເມີນ (ຄະແນນ 0-10)</h2>
+            <span id="saveStatus" style="font-size: 14px; font-weight: bold; color: var(--muted);"></span>
+          </div>
           <button class="btn gray" onclick="closeInputCard()">🔙 ກັບຄືນໜ້າຂໍ້ມູນ</button>
         </div>
         
@@ -1448,7 +1451,7 @@ function renderSingleEvaluationTable() {
         fullHtml += `<td style="padding: 0; text-align: center; width: 45px;">
           <input type="number" min="0" max="10" class="score-input" 
             style="width: 100%; height: 28px; border: none; outline: none; background: transparent; text-align: center; font-size: 14px;" 
-            onchange="saveScore(${groupIdx}, ${evaluatorIdx}, ${evaluateeIdx}, ${i}, this.value)" 
+            oninput="saveScore(${groupIdx}, ${evaluatorIdx}, ${evaluateeIdx}, ${i}, this.value)" 
             value="${val}">
         </td>`;
       }
@@ -1536,11 +1539,28 @@ function saveScore(group, evaluator, evaluatee, criterion, value) {
   
   SCORES_DB[currentEvalYear][group][evaluator][evaluatee][criterion] = num;
   
-  // ລໍຖ້າ 1 ວິນາທີ ຖ້າມີການພິມຄະແນນໃໝ່ຈະຍົກເລີກອັນເກົ່າ ແລ້ວລວມບັນທຶກຂຶ້ນ Cloud ບາດດຽວ
+  // ສະແດງຂໍ້ຄວາມກຳລັງບັນທຶກ
+  const statusEl = document.getElementById('saveStatus');
+  if(statusEl) {
+    statusEl.style.color = "#d97706"; // ສີສົ້ມ
+    statusEl.innerText = "⏳ ກຳລັງບັນທຶກ...";
+  }
+
   clearTimeout(saveTimeout);
   saveTimeout = setTimeout(() => {
     _supabase.from('app_state').upsert({ id: 'scores', content: SCORES_DB }).then(({ error }) => {
-      if(error) console.error("Error saving score:", error);
+      if(statusEl) {
+        if(error) {
+          console.error("Error saving score:", error);
+          statusEl.style.color = "red";
+          statusEl.innerText = "❌ ບັນທຶກລົ້ມເຫຼວ";
+        } else {
+          statusEl.style.color = "var(--green)";
+          statusEl.innerText = "✅ ບັນທຶກສຳເລັດແລ້ວ";
+          // ໃຫ້ຂໍ້ຄວາມຫາຍໄປຫຼັງຈາກ 2 ວິນາທີ
+          setTimeout(() => { statusEl.innerText = ""; }, 2000);
+        }
+      }
     });
   }, 1000);
 }
