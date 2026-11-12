@@ -306,8 +306,8 @@
   /* Style ສຳລັບການ Print */
   @media print {
     @page { 
-      size: A4 portrait; 
-      margin: 2cm 2cm 2cm 3cm;
+      /* ລຶບຄຳສັ່ງ size ອອກ ເພື່ອໃຫ້ Browser ສະແດງເມນູເລືອກລວງຕັ້ງ/ລວງນອນ ໄດ້ອິດສະຫຼະ */
+      margin: 1cm;
     }
     /* ປິດການສະແດງຜົນ Header ແລະ Footer ຂອງ Browser (ວັນທີ, ຊື່ເວັບ, ປຸ່ມຕ່າງໆ) */
     html, body {
@@ -1323,11 +1323,26 @@ function viewIndividualSummaryFromMain(groupIdx, evaluateeIdx) {
         </div>
     </div>
     
-    <div style="display:flex; justify-content:space-between; margin-top:15px; font-weight:bold; text-align:center;">
-       <div>ລາຍເຊັນຜູ້ຖືກປະເມີນ<br><br><br><br>......................................</div>
-       <div>ຫົວໜ້າໜ່ວຍງານ<br><br><br><br>......................................</div>
-       <div>ຄະນະພະແນກ<br><br><br><br>......................................</div>
-    </div>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 25px; text-align: center; font-weight: bold; border: none;">
+      <tbody>
+        <tr>
+          <td style="width: 50%; padding: 10px; border: none; font-size: 14px; font-weight: normal;">
+            ທີ່...............ວັນທີ:..../..../........
+          </td>
+          <td style="width: 50%; padding: 10px; border: none; font-size: 14px; font-weight: normal;">
+            ທີ່...............ວັນທີ:..../..../........
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 15px 10px 50px 10px; border: none; font-size: 16px;">
+            ຫົວໜ້າພະແນກ
+          </td>
+          <td style="padding: 15px 10px 50px 10px; border: none; font-size: 16px;">
+            ເຈົ້າຂອງໃບປະເມີນຜົນ
+          </td>
+        </tr>
+      </tbody>
+    </table>
   `;
 }
 
@@ -1563,6 +1578,25 @@ function saveScore(group, evaluator, evaluatee, criterion, value) {
       }
     });
   }, 1000);
+}
+// 🟢 ໂຄດໃໝ່: ຟັງຊັນກຳນົດລວງຕັ້ງ ຫຼື ລວງນອນກ่อนພິມ
+function printWithOrientation(orientation) {
+  // ປັບ @page size ຕາມທີ່ຜູ້ໃຊ້ເລືອກຜ່ານ CSS Injection ຊົ່ວຄາວ
+  let styleTag = document.getElementById('print-orientation-style');
+  if (!styleTag) {
+    styleTag = document.createElement('style');
+    styleTag.id = 'print-orientation-style';
+    document.head.appendChild(styleTag);
+  }
+  
+  if (orientation === 'landscape') {
+    styleTag.innerHTML = `@media print { @page { size: A4 landscape !important; } }`;
+  } else {
+    styleTag.innerHTML = `@media print { @page { size: A4 portrait !important; } }`;
+  }
+
+  // ເອີ້ນคำสั่งພິມຂອງ Browser
+  window.print();
 }
 </script>
 </body>
